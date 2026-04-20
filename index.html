@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&display=swap');
 
@@ -12,6 +13,46 @@
     font-family: Georgia, 'Times New Roman', serif;
     overflow-x: hidden;
   }
+
+  #overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #fdf6ec;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    font-family: Georgia, serif;
+  }
+
+  #overlay h2 {
+    font-size: 28px;
+    color: #c04a1a;
+    font-style: italic;
+  }
+
+  #overlay p {
+    font-size: 16px;
+    color: #a0522d;
+  }
+
+  .start-btn {
+    background: #e8704a;
+    color: white;
+    border: none;
+    padding: 14px 40px;
+    border-radius: 50px;
+    font-size: 18px;
+    font-family: Georgia, serif;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+
+  .start-btn:hover { background: #d05a38; }
 
   .page {
     max-width: 720px;
@@ -71,44 +112,6 @@
     position: absolute;
     pointer-events: none;
     z-index: 3;
-  }
-
-  /* Music overlay */
-  .music-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(253, 246, 236, 0.96);
-    z-index: 200;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    font-family: Georgia, serif;
-    cursor: pointer;
-  }
-
-  .music-overlay h2 {
-    font-size: 28px;
-    color: #c04a1a;
-    font-style: italic;
-  }
-
-  .music-overlay p {
-    font-size: 16px;
-    color: #a0522d;
-  }
-
-  .start-btn {
-    background: #e8704a;
-    color: white;
-    border: none;
-    padding: 14px 40px;
-    border-radius: 50px;
-    font-size: 18px;
-    font-family: Georgia, serif;
-    cursor: pointer;
-    margin-top: 10px;
   }
 
   .music-player {
@@ -203,12 +206,11 @@
   <source src="song.mp3" type="audio/mpeg">
 </audio>
 
-<!-- Welcome overlay -->
-<div class="music-overlay" id="overlay" onclick="startExperience()">
-  <div style="font-size:48px;">🎂</div>
+<div id="overlay">
+  <div style="font-size:56px;">🎂</div>
   <h2>Happy Birthday, Nishchitha!</h2>
   <p>A little something from Saranya, all the way from London ♡</p>
-  <button class="start-btn">Open your letter 🎵</button>
+  <button class="start-btn" onclick="startExperience()">Open your letter 🎵</button>
 </div>
 
 <div class="sunshine-container">
@@ -371,39 +373,38 @@
 </div>
 
 <script>
-const audio = document.getElementById('bgMusic');
-const overlay = document.getElementById('overlay');
-const musicPlayer = document.getElementById('musicPlayer');
-const playIcon = document.getElementById('playIcon');
-const songLabel = document.getElementById('songLabel');
-let playing = false;
+  const audio = document.getElementById('bgMusic');
+  const overlay = document.getElementById('overlay');
+  const musicPlayer = document.getElementById('musicPlayer');
+  const playIcon = document.getElementById('playIcon');
+  const songLabel = document.getElementById('songLabel');
+  let playing = false;
 
-function startExperience() {
-  audio.play().then(() => {
-    playing = true;
+  function startExperience() {
     overlay.style.display = 'none';
     musicPlayer.style.display = 'flex';
-    playIcon.innerHTML = '<rect x="3" y="2" width="3" height="10"/><rect x="8" y="2" width="3" height="10"/>';
-    songLabel.textContent = '♪ Now playing...';
-  }).catch(() => {
-    overlay.style.display = 'none';
-    musicPlayer.style.display = 'flex';
-  });
-}
-
-function toggleMusic() {
-  if (!playing) {
-    audio.play();
-    playing = true;
-    playIcon.innerHTML = '<rect x="3" y="2" width="3" height="10"/><rect x="8" y="2" width="3" height="10"/>';
-    songLabel.textContent = '♪ Now playing...';
-  } else {
-    audio.pause();
-    playing = false;
-    playIcon.innerHTML = '<polygon points="3,1 13,7 3,13"/>';
-    songLabel.textContent = '♪ All Too Well';
+    audio.play().then(() => {
+      playing = true;
+      playIcon.innerHTML = '<rect x="3" y="2" width="3" height="10"/><rect x="8" y="2" width="3" height="10"/>';
+      songLabel.textContent = '♪ Now playing...';
+    }).catch(() => {
+      songLabel.textContent = '♪ Press play ▶';
+    });
   }
-}
+
+  function toggleMusic() {
+    if (!playing) {
+      audio.play();
+      playing = true;
+      playIcon.innerHTML = '<rect x="3" y="2" width="3" height="10"/><rect x="8" y="2" width="3" height="10"/>';
+      songLabel.textContent = '♪ Now playing...';
+    } else {
+      audio.pause();
+      playing = false;
+      playIcon.innerHTML = '<polygon points="3,1 13,7 3,13"/>';
+      songLabel.textContent = '♪ All Too Well';
+    }
+  }
 </script>
 </body>
 </html>
