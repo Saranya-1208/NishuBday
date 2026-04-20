@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=Lato:wght@300;400&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&display=swap');
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
     background: #fdf6ec;
-    font-family: 'Lato', sans-serif;
+    font-family: Georgia, 'Times New Roman', serif;
     overflow-x: hidden;
   }
 
@@ -33,10 +33,7 @@
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
     background-image: repeating-linear-gradient(
-      transparent,
-      transparent 39px,
-      #f5e8d0 39px,
-      #f5e8d0 40px
+      transparent, transparent 43px, #f5e8d0 43px, #f5e8d0 44px
     );
     border-radius: 4px;
     pointer-events: none;
@@ -46,16 +43,17 @@
   .letter-content {
     position: relative;
     z-index: 2;
-    font-family: 'Caveat', cursive;
-    font-size: 19px;
-    line-height: 1.85;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 22px;
+    line-height: 1.9;
     color: #3a2a1a;
   }
 
   .letter-content p { margin-bottom: 1.2em; }
 
   .greeting {
-    font-size: 26px;
+    font-family: 'Caveat', cursive;
+    font-size: 30px;
     font-weight: 600;
     color: #c04a1a;
     margin-bottom: 0.8em;
@@ -63,7 +61,8 @@
 
   .sign-off {
     margin-top: 1.5em;
-    font-size: 21px;
+    font-family: 'Caveat', cursive;
+    font-size: 24px;
     font-weight: 600;
     color: #c04a1a;
   }
@@ -72,6 +71,44 @@
     position: absolute;
     pointer-events: none;
     z-index: 3;
+  }
+
+  /* Music overlay */
+  .music-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(253, 246, 236, 0.96);
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    font-family: Georgia, serif;
+    cursor: pointer;
+  }
+
+  .music-overlay h2 {
+    font-size: 28px;
+    color: #c04a1a;
+    font-style: italic;
+  }
+
+  .music-overlay p {
+    font-size: 16px;
+    color: #a0522d;
+  }
+
+  .start-btn {
+    background: #e8704a;
+    color: white;
+    border: none;
+    padding: 14px 40px;
+    border-radius: 50px;
+    font-size: 18px;
+    font-family: Georgia, serif;
+    cursor: pointer;
+    margin-top: 10px;
   }
 
   .music-player {
@@ -85,8 +122,8 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    font-family: 'Caveat', cursive;
-    font-size: 16px;
+    font-family: Georgia, serif;
+    font-size: 14px;
     color: #8b4513;
     z-index: 100;
     box-shadow: 0 2px 16px rgba(180,120,40,0.13);
@@ -105,7 +142,7 @@
   }
 
   .play-btn svg { fill: white; }
-  .music-label { font-size: 14px; color: #a0522d; max-width: 160px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .music-label { font-size: 13px; color: #a0522d; }
   audio { display: none; }
 
   @keyframes run {
@@ -115,28 +152,23 @@
     99% { transform: translateX(-120px) scaleX(-1); }
     100% { transform: translateX(-120px) scaleX(1); }
   }
-
   @keyframes wag {
     0%, 100% { transform: rotate(0deg); }
     25% { transform: rotate(15deg); }
     75% { transform: rotate(-10deg); }
   }
-
   @keyframes float {
     0%, 100% { transform: translateY(0px); }
     50% { transform: translateY(-8px); }
   }
-
   @keyframes spin {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
   }
-
   @keyframes scooty-run {
     0% { left: -160px; }
     100% { left: calc(100% + 160px); }
   }
-
   @keyframes sparkle {
     0%, 100% { opacity: 1; transform: scale(1); }
     50% { opacity: 0.4; transform: scale(0.7); }
@@ -149,14 +181,8 @@
     animation: run 18s linear infinite;
     z-index: 50;
   }
-
-  .dog-tail {
-    transform-origin: 8px 6px;
-    animation: wag 0.4s ease-in-out infinite;
-  }
-
+  .dog-tail { transform-origin: 8px 6px; animation: wag 0.4s ease-in-out infinite; }
   .snitch { animation: float 3s ease-in-out infinite; }
-
   .scooty-container {
     position: fixed;
     bottom: 110px;
@@ -164,19 +190,11 @@
     animation-delay: 4s;
     z-index: 49;
   }
-
   .sparkle-1 { animation: sparkle 1.5s ease-in-out infinite; }
   .sparkle-2 { animation: sparkle 2.1s ease-in-out infinite 0.5s; }
   .sparkle-3 { animation: sparkle 1.8s ease-in-out infinite 1s; }
-
   .sunshine { animation: spin 20s linear infinite; transform-origin: center; }
-
-  .sunshine-container {
-    position: fixed;
-    top: 20px;
-    right: 60px;
-    z-index: 10;
-  }
+  .sunshine-container { position: fixed; top: 20px; right: 60px; z-index: 10; }
 </style>
 </head>
 <body>
@@ -184,6 +202,14 @@
 <audio id="bgMusic" loop>
   <source src="song.mp3" type="audio/mpeg">
 </audio>
+
+<!-- Welcome overlay -->
+<div class="music-overlay" id="overlay" onclick="startExperience()">
+  <div style="font-size:48px;">🎂</div>
+  <h2>Happy Birthday, Nishchitha!</h2>
+  <p>A little something from Saranya, all the way from London ♡</p>
+  <button class="start-btn">Open your letter 🎵</button>
+</div>
 
 <div class="sunshine-container">
   <svg width="80" height="80" viewBox="0 0 80 80">
@@ -335,36 +361,47 @@
   </div>
 </div>
 
-<div class="music-player">
-  <button class="play-btn" id="playBtn" onclick="toggleMusic()">
+<div class="music-player" id="musicPlayer" style="display:none;">
+  <button class="play-btn" onclick="toggleMusic()">
     <svg id="playIcon" width="14" height="14" viewBox="0 0 14 14"><polygon points="3,1 13,7 3,13"/></svg>
   </button>
   <div>
-    <div class="music-label" id="songLabel">♪ Taylor Swift</div>
-    <div style="font-size:11px; color:#c09060; margin-top:2px;">tap to play</div>
+    <div class="music-label" id="songLabel">♪ All Too Well</div>
   </div>
 </div>
 
 <script>
 const audio = document.getElementById('bgMusic');
+const overlay = document.getElementById('overlay');
+const musicPlayer = document.getElementById('musicPlayer');
 const playIcon = document.getElementById('playIcon');
 const songLabel = document.getElementById('songLabel');
 let playing = false;
 
+function startExperience() {
+  audio.play().then(() => {
+    playing = true;
+    overlay.style.display = 'none';
+    musicPlayer.style.display = 'flex';
+    playIcon.innerHTML = '<rect x="3" y="2" width="3" height="10"/><rect x="8" y="2" width="3" height="10"/>';
+    songLabel.textContent = '♪ Now playing...';
+  }).catch(() => {
+    overlay.style.display = 'none';
+    musicPlayer.style.display = 'flex';
+  });
+}
+
 function toggleMusic() {
   if (!playing) {
-    audio.play().then(() => {
-      playing = true;
-      playIcon.innerHTML = '<rect x="3" y="2" width="3" height="10"/><rect x="8" y="2" width="3" height="10"/>';
-      songLabel.textContent = '♪ Now playing...';
-    }).catch(() => {
-      songLabel.textContent = '♪ Upload song.mp3';
-    });
+    audio.play();
+    playing = true;
+    playIcon.innerHTML = '<rect x="3" y="2" width="3" height="10"/><rect x="8" y="2" width="3" height="10"/>';
+    songLabel.textContent = '♪ Now playing...';
   } else {
     audio.pause();
     playing = false;
     playIcon.innerHTML = '<polygon points="3,1 13,7 3,13"/>';
-    songLabel.textContent = '♪ Taylor Swift';
+    songLabel.textContent = '♪ All Too Well';
   }
 }
 </script>
